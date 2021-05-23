@@ -120,6 +120,33 @@ test('generates authenticationToken', async () => {
     )))
 })
 
+test('generates authenticationTokenLegacy', async () => {
+  // Required for Node.js support
+  const crypto: Crypto = globalThis.process?.versions?.node
+    ? require('crypto').webcrypto
+    : window.crypto
+  const password = 'password'
+  const keychain = await inncrypt.generateKeychain(password)
+  const baseKey = await crypto.subtle.importKey(
+    'raw',
+    stringToArrayBuffer(password),
+    { name: 'PBKDF2' },
+    false,
+    ['deriveBits']
+  )
+  expect(keychain.authenticationTokenLegacy).toStrictEqual(
+    await arrayBufferToString(await crypto.subtle.deriveBits(
+      {
+        name: 'PBKDF2',
+        hash: 'SHA-256',
+        salt: keychain.tokenSalt,
+        iterations: 100000
+      },
+      baseKey,
+      256
+    )))
+})
+
 test('exports and imports', async () => {
   // Required for Node.js support
   const crypto: Crypto = globalThis.process?.versions?.node
