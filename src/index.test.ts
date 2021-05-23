@@ -118,7 +118,6 @@ test('generates authenticationToken', async () => {
       baseKey,
       256
     )))
-<<<<<<< HEAD
 })
 
 test('generates authenticationTokenLegacy', async () => {
@@ -146,8 +145,6 @@ test('generates authenticationTokenLegacy', async () => {
       baseKey,
       256
     )))
-=======
->>>>>>> 06a214d26ec01ece6740aa95d03abf07c354a1d7
 })
 
 test('exports and imports', async () => {
